@@ -2,25 +2,45 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+interface State {
+  varosok : Varos[]
+}
+
+interface Varos {
+  id : number,
+  varos : string,
+  lakossag : number
+}
+
+interface varosResponse {
+  varosok : Varos[]
+}
+
+class App extends React.Component<{}, State> {
+  constructor(props : {}){
+    super(props)
+    this.state = {
+      varosok : [],
+    }
+  }
+
+  betoltes = async () => {
+    let response = await fetch("http://localhost:3000/varos")
+    let adat = await response.json() as varosResponse
+    this.setState({
+      varosok : adat.varosok
+  })
+}
+  componentDidMount(): void {
+    this.betoltes()
+  }
+
+  render() {
+    return <div>
+      {}
     </div>
-  );
+  }
 }
 
 export default App;
